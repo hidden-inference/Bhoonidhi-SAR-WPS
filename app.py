@@ -23,6 +23,21 @@ if not getattr(pywps_basic, '_custom_templates', False):
     pywps_basic._custom_templates = True
 
 
+class AllowBrowsers:
+    """Add CORS headers so web clients (e.g. hoppscotch.io) can call the service from a browser."""
+    def __init__(self, app): self.app = app
+
+    def __call__(self, environ, start_response):
+        cors = [('Access-Control-Allow-Origin', '*'), ('Access-Control-Allow-Methods', 'GET, POST, OPTIONS'),
+                ('Access-Control-Allow-Headers', 'Content-Type'), ('Access-Control-Max-Age', '86400')]
+        if environ['REQUEST_METHOD'] == 'OPTIONS':
+            start_response('204 No Content', cors)
+            return [b'']
+        def respond(status, headers, exc_info=None):
+            return start_response(status, headers + cors, exc_info)
+        return self.app(environ, respond)
+
+
 def simple_xml(root):
     ET.indent(root)
     return Response(ET.tostring(root, encoding='unicode'), mimetype='text/xml')
@@ -145,7 +160,7 @@ def create_application(config=None):
         service = Service(procs,[str(runtime_config)])
     finally:
         runtime_config.unlink(missing_ok=True)
-    return DispatcherMiddleware(downloads,{'/wps':service})
+    return AllowBrowsers(DispatcherMiddleware(downloads,{'/wps':service}))
 
 
 application = create_application()
