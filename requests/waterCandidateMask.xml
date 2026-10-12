@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Mark dark pixels in my bounding box as possible water -->
+<wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1">
+  <ows:Identifier>waterCandidateMask</ows:Identifier>
+  <wps:DataInputs>
+    <!-- the box I want, as lon lat (lower-left corner, then upper-right corner) -->
+    <wps:Input>
+      <ows:Identifier>bbox</ows:Identifier>
+      <wps:Data><wps:BoundingBoxData crs="urn:ogc:def:crs:OGC:1.3:CRS84" dimensions="2">
+        <ows:LowerCorner>76.7054 21.2077</ows:LowerCorner>
+        <ows:UpperCorner>76.8054 21.3077</ows:UpperCorner>
+      </wps:BoundingBoxData></wps:Data>
+    </wps:Input>
+    <!-- date of the scene -->
+    <wps:Input><ows:Identifier>date</ows:Identifier><wps:Data><wps:LiteralData>2022-05-08</wps:LiteralData></wps:Data></wps:Input>
+    <!-- HH, HV or DH (DH = both) -->
+    <wps:Input><ows:Identifier>polarization</ows:Identifier><wps:Data><wps:LiteralData>DH</wps:LiteralData></wps:Data></wps:Input>
+    <!-- scene id (see /scenes) -->
+    <wps:Input><ows:Identifier>scene_id</ows:Identifier><wps:Data><wps:LiteralData>E04_SAR_CRS_08MAY2022_128125859021_1264_STUC00ZTD_1008_13_DH_A_R_N21369_E076607</wps:LiteralData></wps:Data></wps:Input>
+    <!-- pixels darker than this many dB are marked as water (optional, default -20) -->
+    <wps:Input><ows:Identifier>threshold_db</ows:Identifier><wps:Data><wps:LiteralData>-20</wps:LiteralData></wps:Data></wps:Input>
+  </wps:DataInputs>
+  <!-- give me a download link for the ZIP -->
+  <wps:ResponseForm>
+    <wps:ResponseDocument>
+      <wps:Output asReference="true"><ows:Identifier>result</ows:Identifier></wps:Output>
+    </wps:ResponseDocument>
+  </wps:ResponseForm>
+</wps:Execute>

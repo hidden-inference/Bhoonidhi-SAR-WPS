@@ -1,0 +1,6 @@
+-r requirements.txt
+# Install system GDAL + matching Python bindings first (see README).
+pywps>=4.7,<5
+Flask>=3,<4
+gunicorn>=23,<24
+requests>=2.32,<3

@@ -1,0 +1,14 @@
+**
+!Dockerfile
+!requirements.txt
+!requirements-wps.txt
+!app.py
+!pywps.cfg
+!run_local.py
+!fetch_bhoonidhi.py
+!processing/**
+!processes/**
+!templates/**
+!scripts/**
+!requests/**
+**/__pycache__

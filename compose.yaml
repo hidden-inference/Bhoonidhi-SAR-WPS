@@ -1,0 +1,14 @@
+services:
+  wps:
+    build: .
+    image: eos04-wps:local
+    ports:
+      - "127.0.0.1:5000:5000"
+    environment:
+      WPS_PUBLIC_URL: ${WPS_PUBLIC_URL:-http://localhost:5000}
+    volumes:
+      - ./data:/app/data:ro
+      - ./outputs:/app/outputs
+      - ./work:/app/work
+      - ./logs:/app/logs
+    restart: unless-stopped

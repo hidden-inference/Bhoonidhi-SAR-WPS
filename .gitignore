@@ -1,0 +1,17 @@
+# data, results and runtime files (large or machine specific)
+data/
+outputs/
+work/
+logs/
+# local environments and tools
+.venv/
+.env/
+.tools/
+__pycache__/
+*.pyc
+.pytest_cache/
+# local notes, demo sheet, partial lock file
+docs/
+instruction.txt
+requirements-lock.txt
+config/public-url.txt
