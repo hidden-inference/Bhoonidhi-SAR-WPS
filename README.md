@@ -59,4 +59,4 @@ The SAR data (about 5 GB) is not in this repository. Put the scene folders into 
 docker compose --env-file config/docker.env up -d --build    # service on http://localhost:5000
 ```
 
-Stop the service with `docker compose --env-file config/docker.env down`.For a public link run `cloudflared tunnel --url http://localhost:5000`, set the printed URL as `WPS_PUBLIC_URL` in `config/docker.env` and start the service again.
+Stop the service with `docker compose --env-file config/docker.env down`.
