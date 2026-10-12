@@ -92,10 +92,13 @@ def run_pipeline(*, product, bbox, date, output_dir, polarization='DH', scene_id
             else:
                 ref = (d['crs'], d['transform'])
     if product == 'ratio':
-        a, b = to_db(linear['HH']), to_db(linear['HV'])
-        files.append(write_raster(output_dir/'HH_HV_ratio_db.tif', a - b, ref[0], ref[1], 'HH/HV ratio (dB) = HH_dB - HV_dB'))
+        hh, hv = linear['HH'], linear['HV']
+        ratio = np.divide(hv, hh, out=np.full(hh.shape, np.nan), where=np.isfinite(hh) & np.isfinite(hv) & (hh > 0))
+        files.append(write_raster(output_dir/'HV_HH_ratio.tif', ratio, ref[0], ref[1], 'HV/HH ratio (linear Gamma0 division)'))
+        files.append(write_raster(output_dir/'HV_HH_ratio_db.tif', to_db(ratio), ref[0], ref[1], 'HV/HH ratio in dB = 10*log10(HV/HH)'))
     metadata = dict(product=product, scene_id=scene.scene_id, mode=scene.mode, acquisition_timestamp=scene.timestamp,
         rtc_applied=scene.rtc_applied, bbox=bbox, bbox_crs='OGC:CRS84', channels=records,
+        ratio='HV/HH = linear Gamma0 of HV divided by linear Gamma0 of HH; dB version = 10*log10(ratio)' if product == 'ratio' else None,
         gamma0_linear='(DN^2 - noise_bias) / 10^(Kcal_Beta0_dB/10)  [EOS-04 format doc 6.3]; gamma0_dB = 10*log10(linear)',
         quality_policy='mask value 128 only; nearest-neighbour alignment; nonpositive power excluded',
         water_threshold_db=threshold_db if product == 'water' else None,

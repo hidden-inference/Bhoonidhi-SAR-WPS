@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- HH/HV ratio in dB for my bounding box (always uses both channels) -->
+<!-- HV/HH ratio for my bounding box (always uses both channels) -->
 <wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1">
   <ows:Identifier>polarisationRatio</ows:Identifier>
   <wps:DataInputs>

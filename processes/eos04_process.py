@@ -80,7 +80,7 @@ def make_processes(catalog):
         EOS04Process(catalog, 'waterCandidateMask', 'Water candidate mask',
             'Marks dark (low backscatter) pixels as possible water: 1 = candidate water, 0 = other, 255 = no data. This is a simple threshold, not a flood map.',
             'water', water=True),
-        EOS04Process(catalog, 'polarisationRatio', 'HH/HV polarisation ratio',
-            'Gives the HH/HV ratio in dB (HH dB minus HV dB) for your bounding box. Needs a scene that has both HH and HV.',
+        EOS04Process(catalog, 'polarisationRatio', 'HV/HH polarisation ratio',
+            'Divides the HV backscatter by the HH backscatter (HV / HH) for your bounding box. You get the plain ratio and the same ratio in dB. Needs a scene that has both HH and HV.',
             'ratio', polarization=False),
     ]
