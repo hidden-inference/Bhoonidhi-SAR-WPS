@@ -10,25 +10,30 @@ Bhoonidhi has no cloud processing for microwave data.
 ## Download API constraint
 As generation of JWT token requires special account privellages, I downloaded some scenes locally and provided these local scenes to let anyone test standard WPS requests (GetCapabilities, DescribeProcess, Execute).
 
-Level-2B terrain-normalised Gamma0 scenes - **15 scenes** (11 CRS, 4 MRS).
+Level-2B terrain-normalised Gamma0 scenes - **20 scenes** (10 CRS, 10 MRS), the same list as `/scenes`.
 
 | Scene id | Date | Mode | Channels | Pixel size |
 |---|---|---|---|---|
 | `E04_SAR_MRS_25MAR2022_084011005061_591_STUC00ZTD_273_16_DH_D_R_N22564_E072255` | 2022-03-25 | MRS | HH + HV | 18 m |
-| `E04_SAR_CRS_17APR2022_107120919088_946_STUC00ZTD_684_6_DH_A_L_N22739_E081544` | 2022-04-17 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_08MAY2022_128125859021_1264_STUC00ZTD_1008_13_DH_A_R_N21369_E076607` | 2022-05-08 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_19MAY2022_139123043049_1430_STUC00ZTD_1166_12_DH_A_L_N18974_E077229` | 2022-05-19 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_20MAY2022_140121931071_1445_STUC00ZTD_1174_12_DH_A_L_N18849_E079403` | 2022-05-20 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_25MAY2022_145125756072_1521_STUC00ZTD_1246_10_DH_A_R_N17532_E077336` | 2022-05-25 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_27MAY2022_147123356060_1551_STUC00ZTD_1268_3_DH_A_L_N09913_E077354` | 2022-05-27 | CRS | HH + HV | 36 m |
 | `E04_SAR_CRS_27MAY2022_147123619062_1551_STUC00ZTD_1268_10_DH_A_L_N18883_E075368` | 2022-05-27 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_02JUN2022_153130252059_1642_STUC00ZTD_1347_7_DH_A_R_N15022_E076704` | 2022-06-02 | CRS | HH + HV | 36 m |
 | `E04_SAR_CRS_10JUN2022_161130706028_1763_STUC00ZTD_1478_2_DH_A_R_N09923_E076389` | 2022-06-10 | CRS | HH + HV | 36 m |
-| `E04_SAR_CRS_05JUL2022_186131422079_2141_STUC00ZTD_1867_2_DH_A_R_N16218_E073161` | 2022-07-05 | CRS | HH + HV | 36 m |
 | `E04_SAR_CRS_06JUL2022_187113003043_2155_STUC00ZTD_1884_2_DH_A_L_N22747_E091391` | 2022-07-06 | CRS | HH + HV | 36 m |
-| `E04_SAR_MRS_03OCT2022_276001135018_3493_STUC00ZTD_3404_2_DH_D_R_N31497_E088026` | 2022-10-03 | MRS | HH + HV | 18 m |
-| `E04_SAR_MRS_19DEC2022_353000652037_4657_STUC00ZTD_4961_5_DH_D_R_N27672_E088663` | 2022-12-19 | MRS | HH + HV | 18 m |
-| `E04_SAR_MRS_03FEB2023_034010329027_5353_STUC00ZTD_5817_14_DH_D_R_N25120_E074155` | 2023-02-03 | MRS | HH + HV | 18 m |
+| `E04_SAR_CRS_14JUL2022_195131007043_2277_STUC00ZTD_2028_8_DH_A_R_N21224_E072907` | 2022-07-14 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_28JUL2022_209120915085_2488_STUC00ZTD_2251_6_DH_A_L_N22328_E079567` | 2022-07-28 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_03SEP2022_246113639054_3047_STUC00ZTD_2857_5_DH_A_L_N26139_E086891` | 2022-09-03 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_09SEP2022_252120459099_3138_STUC00ZTD_2960_10_DH_A_L_N27798_E081361` | 2022-09-09 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_14SEP2022_257110756342_3213_STUC00ZTD_3060_3_DH_A_L_N23904_E096068` | 2022-09-14 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_20OCT2022_293121938074_3758_STUC00ZTD_3772_3_DH_A_R_N21231_E085557` | 2022-10-20 | CRS | HH + HV | 36 m |
+| `E04_SAR_CRS_21OCT2022_294120739036_3773_STUC00ZTD_3790_1_DH_A_L_N16305_E082876` | 2022-10-21 | CRS | HH + HV | 36 m |
+| `E04_SAR_MRS_30MAY2023_150235112470_7121_STUC00ZTD_8466_10_DH_D_R_N22565_E091864` | 2023-05-30 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_27OCT2023_300003548143_9374_STUC00ZTD_11705_14_DH_D_R_N22565_E080660` | 2023-10-27 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_19DEC2023_353001315426_10175_STUC00ZTD_12829_9_DH_D_R_N22565_E086257` | 2023-12-19 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_29FEB2024_060010430384_11264_STUC00ZTD_14316_19_DH_D_R_N18728_E072907` | 2024-02-29 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_08APR2024_099000744899_11853_STUC00ZTD_15036_10_DH_D_R_N21286_E087404` | 2024-04-08 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_27JUL2024_210000050107_13531_STUC00ZTD_17562_7_DH_D_R_N25120_E089560` | 2024-07-28 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_23AUG2024_236234459122_13939_STUC00ZTD_18105_11_DH_D_R_N21286_E093020` | 2024-08-23 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_08MAR2025_067232836601_16917_STUC00ZTD_22680_13_DH_D_R_N17449_E096480` | 2025-03-08 | MRS | HH + HV | 18 m |
+| `E04_SAR_MRS_04AUG2025_216122827883_19163_STUC00ZTD_26182_5_DH_A_R_N21233_E082775` | 2025-08-04 | MRS | HH + HV | 18 m |
 
 ## Operations available
 Standard WPS operations:
@@ -47,12 +52,28 @@ Processes you can Execute:
 Every process needs `bbox` (lon lat box), `date` (format 2022-05-08) and optionally `scene_id`; Some operations also require `polarization` (HH, HV or DH for both).
 
 ## Instructions
-```bash
-# 1. get data (needs a Bhoonidhi account; the password is only kept in memory)
-python -m venv .venv && .venv/bin/pip install -r requirements.txt requests
-export BHOONIDHI_USER=your_id BHOONIDHI_PASSWORD=your_password
-.venv/bin/python fetch_bhoonidhi.py --target 50          # downloads 50 scenes into data/raw
 
-# 2. start the service
-docker compose --env-file config/docker.env up -d --build   # http://localhost:5000
+The SAR data (about 5 GB) is not in this repository. Put the scene folders into `data/raw/` (see [data/README.md](data/README.md)), then:
+
+```bash
+docker compose --env-file config/docker.env up -d --build    # service on http://localhost:5000
 ```
+
+Test the three WPS operations with curl, Postman or Hoppscotch:
+
+```bash
+# GetCapabilities
+curl 'http://localhost:5000/wps?service=WPS&request=GetCapabilities&acceptversions=1.0.0'
+
+# DescribeProcess
+curl 'http://localhost:5000/wps?service=WPS&version=1.0.0&request=DescribeProcess&identifier=waterCandidateMask'
+
+# Execute (ready-made requests are in wps_example_requests/)
+curl -H 'Content-Type: text/xml' --data-binary @wps_example_requests/waterCandidateMask.xml http://localhost:5000/wps
+```
+
+The Execute answer contains a `Reference` link to `result.zip` with the GeoTIFFs and a `metadata.json`; open the link to download it (the GeoTIFFs can be viewed in QGIS). `http://localhost:5000/scenes` lists the available scenes, and `http://localhost:5000/example.xml?process=Subset&scene_id=<scene id>` gives a ready request for any scene.
+
+Stop the service with `docker compose --env-file config/docker.env down`.
+
+For a public link run `cloudflared tunnel --url http://localhost:5000`, set the printed URL as `WPS_PUBLIC_URL` in `config/docker.env` and start the service again.

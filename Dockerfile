@@ -9,9 +9,7 @@ RUN useradd --uid 1000 --create-home wps
 COPY --chown=wps:wps processing ./processing
 COPY --chown=wps:wps processes ./processes
 COPY --chown=wps:wps templates ./templates
-COPY --chown=wps:wps scripts ./scripts
-COPY --chown=wps:wps requests ./requests
-COPY --chown=wps:wps app.py pywps.cfg run_local.py fetch_bhoonidhi.py ./
+COPY --chown=wps:wps app.py pywps.cfg ./
 RUN mkdir -p data work outputs logs && chown -R wps:wps /app
 USER wps
 EXPOSE 5000

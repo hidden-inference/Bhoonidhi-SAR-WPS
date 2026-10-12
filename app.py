@@ -11,7 +11,8 @@ from jinja2 import ChoiceLoader, FileSystemLoader
 import pywps.response.basic as pywps_basic
 from xml.etree import ElementTree as ET
 from processes.eos04_process import make_processes
-from scripts.example_request import execute_xml
+from processing.catalog import build_catalog
+from processing.example_request import execute_xml
 
 BASE = Path(__file__).resolve().parent
 
@@ -70,7 +71,9 @@ def create_application(config=None):
             raise ValueError('WPS_PUBLIC_URL must be an HTTP(S) origin, e.g. https://name.trycloudflare.com')
         settings.set('server','url',public+'/wps')
         settings.set('server','outputurl',public+'/outputs/')
-    catalog = Path(os.environ.get('WPS_CATALOG',str(BASE/'data/catalog/scenes.json')))
+    catalog = Path(os.environ.get('WPS_CATALOG',str(BASE/'work/catalog/scenes.json')))
+    if 'WPS_CATALOG' not in os.environ:
+        build_catalog(BASE/'data/raw', catalog)
     inventory = Path(os.environ.get('WPS_INVENTORY',str(BASE/'data/stac_items.json')))
     downloads = Flask(__name__)
     downloads.config['MAX_CONTENT_LENGTH'] = 1024*1024

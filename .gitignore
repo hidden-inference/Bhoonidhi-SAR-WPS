@@ -1,18 +1,27 @@
-# data, results and runtime files (large or machine specific)
-data/
+# SAR data (about 5 GB) stays local, only the data/README.md placeholder is in git
+data/*
+!data/README.md
+
+# files created while running
 outputs/
 work/
 logs/
-# local environments and tools
+
+# local tools, notes and helper scripts the service does not need
+scripts/
+fetch_bhoonidhi.py
+run_local.py
+demo/
+docs/
+hoppscotch/
+instruction.txt
+requirements-lock.txt
+config/public-url.txt
+
+# python / editor
 .venv/
 .env/
 .tools/
 __pycache__/
 *.pyc
 .pytest_cache/
-# local notes, demo sheet, partial lock file
-docs/
-instruction.txt
-requirements-lock.txt
-config/public-url.txt
-hoppscotch/

@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Cut my bounding box and convert DN to Gamma0 in dB -->
+<!-- Cut out the bounding box (raw DN values and quality mask) -->
 <wps:Execute service="WPS" version="1.0.0" xmlns:wps="http://www.opengis.net/wps/1.0.0" xmlns:ows="http://www.opengis.net/ows/1.1">
-  <ows:Identifier>Linear2dB</ows:Identifier>
+  <ows:Identifier>Subset</ows:Identifier>
   <wps:DataInputs>
-    <!-- the box I want, as lon lat (lower-left corner, then upper-right corner) -->
+    <!-- bounding box as lon lat: lower-left corner, then upper-right corner -->
     <wps:Input>
       <ows:Identifier>bbox</ows:Identifier>
       <wps:Data><wps:BoundingBoxData crs="urn:ogc:def:crs:OGC:1.3:CRS84" dimensions="2">
-        <ows:LowerCorner>76.7054 21.2077</ows:LowerCorner>
-        <ows:UpperCorner>76.8054 21.3077</ows:UpperCorner>
+        <ows:LowerCorner>91.8189 22.0610</ows:LowerCorner>
+        <ows:UpperCorner>91.9189 22.1610</ows:UpperCorner>
       </wps:BoundingBoxData></wps:Data>
     </wps:Input>
-    <!-- date of the scene -->
-    <wps:Input><ows:Identifier>date</ows:Identifier><wps:Data><wps:LiteralData>2022-05-08</wps:LiteralData></wps:Data></wps:Input>
+    <wps:Input><ows:Identifier>date</ows:Identifier><wps:Data><wps:LiteralData>2023-05-30</wps:LiteralData></wps:Data></wps:Input>
     <!-- HH, HV or DH (DH = both) -->
     <wps:Input><ows:Identifier>polarization</ows:Identifier><wps:Data><wps:LiteralData>DH</wps:LiteralData></wps:Data></wps:Input>
-    <!-- scene id (see /scenes) -->
-    <wps:Input><ows:Identifier>scene_id</ows:Identifier><wps:Data><wps:LiteralData>E04_SAR_CRS_08MAY2022_128125859021_1264_STUC00ZTD_1008_13_DH_A_R_N21369_E076607</wps:LiteralData></wps:Data></wps:Input>
+    <!-- scene id, see http://localhost:5000/scenes -->
+    <wps:Input><ows:Identifier>scene_id</ows:Identifier><wps:Data><wps:LiteralData>E04_SAR_MRS_30MAY2023_150235112470_7121_STUC00ZTD_8466_10_DH_D_R_N22565_E091864</wps:LiteralData></wps:Data></wps:Input>
   </wps:DataInputs>
-  <!-- give me a download link for the ZIP -->
+  <!-- the answer contains a download link for the result ZIP -->
   <wps:ResponseForm>
     <wps:ResponseDocument>
       <wps:Output asReference="true"><ows:Identifier>result</ows:Identifier></wps:Output>

@@ -89,6 +89,7 @@ def run_pipeline(*, product, bbox, date, output_dir, polarization='DH', scene_id
                 record.update(water_pixels=int((water == 1).sum()), valid_pixels=int(good.sum()))
             else:
                 ref = (d['crs'], d['transform'])
+        records[ch] = record
     if product == 'ratio':
         hh, hv = linear['HH'], linear['HV']
         ratio = np.divide(hv, hh, out=np.full(hh.shape, np.nan), where=np.isfinite(hh) & np.isfinite(hv) & (hh > 0))
