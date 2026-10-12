@@ -59,21 +59,4 @@ The SAR data (about 5 GB) is not in this repository. Put the scene folders into 
 docker compose --env-file config/docker.env up -d --build    # service on http://localhost:5000
 ```
 
-Test the three WPS operations with curl, Postman or Hoppscotch:
-
-```bash
-# GetCapabilities
-curl 'http://localhost:5000/wps?service=WPS&request=GetCapabilities&acceptversions=1.0.0'
-
-# DescribeProcess
-curl 'http://localhost:5000/wps?service=WPS&version=1.0.0&request=DescribeProcess&identifier=waterCandidateMask'
-
-# Execute (ready-made requests are in wps_example_requests/)
-curl -H 'Content-Type: text/xml' --data-binary @wps_example_requests/waterCandidateMask.xml http://localhost:5000/wps
-```
-
-The Execute answer contains a `Reference` link to `result.zip` with the GeoTIFFs and a `metadata.json`; open the link to download it (the GeoTIFFs can be viewed in QGIS). `http://localhost:5000/scenes` lists the available scenes, and `http://localhost:5000/example.xml?process=Subset&scene_id=<scene id>` gives a ready request for any scene.
-
-Stop the service with `docker compose --env-file config/docker.env down`.
-
-For a public link run `cloudflared tunnel --url http://localhost:5000`, set the printed URL as `WPS_PUBLIC_URL` in `config/docker.env` and start the service again.
+Stop the service with `docker compose --env-file config/docker.env down`.For a public link run `cloudflared tunnel --url http://localhost:5000`, set the printed URL as `WPS_PUBLIC_URL` in `config/docker.env` and start the service again.
