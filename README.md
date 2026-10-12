@@ -1,12 +1,16 @@
 # WPS over Bhoonidhi SAR data
 
 ## Topic
+Web Processing Service (WPS 1.0.0) built with PyWPS and packaged in Docker.
+for the **EOS-04 (RISAT-1A) C-band SAR Level-2B** images from ISRO's [Bhoonidhi](https://bhoonidhi.nrsc.gov.in/) portal. 
 
-A small **OGC Web Processing Service (WPS 1.0.0)** built with PyWPS and packaged in Docker. It works on **EOS-04 (RISAT-1A) C-band SAR Level-2B** images from ISRO's [Bhoonidhi](https://bhoonidhi.nrsc.gov.in/) portal. Bhoonidhi has no cloud processing for microwave data, so we downloaded some scenes to our own server and let anyone cut, convert and analyse them through standard WPS requests (GetCapabilities, DescribeProcess, Execute).
+## Identified gap
+Bhoonidhi has no cloud processing for microwave data.
 
-## Data available
+## Download API constraint
+As generation of JWT token requires special account privellages, I downloaded some scenes locally and provided these local scenes to let anyone test standard WPS requests (GetCapabilities, DescribeProcess, Execute).
 
-Level-2B terrain-normalised Gamma0 scenes (MRS = Medium Resolution ScanSAR, CRS = Coarse Resolution ScanSAR), area lon 69-97, lat 8-37, years 2021-2026, with HH and HV channels. Currently **15 scenes** (11 CRS, 4 MRS). This is the same list as the `/scenes` page of the running service (the live list there can be longer because downloads continue; `/scenes?all=1` also shows everything Bhoonidhi has online).
+Level-2B terrain-normalised Gamma0 scenes - **15 scenes** (11 CRS, 4 MRS).
 
 | Scene id | Date | Mode | Channels | Pixel size |
 |---|---|---|---|---|
@@ -26,29 +30,23 @@ Level-2B terrain-normalised Gamma0 scenes (MRS = Medium Resolution ScanSAR, CRS 
 | `E04_SAR_MRS_19DEC2022_353000652037_4657_STUC00ZTD_4961_5_DH_D_R_N27672_E088663` | 2022-12-19 | MRS | HH + HV | 18 m |
 | `E04_SAR_MRS_03FEB2023_034010329027_5353_STUC00ZTD_5817_14_DH_D_R_N25120_E074155` | 2023-02-03 | MRS | HH + HV | 18 m |
 
-The data itself is not in this repo (it is big). See "How to run" to download it.
-
 ## Operations available
-
 Standard WPS operations:
-
 - **GetCapabilities**: tells you who made the service and which processes it has.
 - **DescribeProcess**: tells you what inputs a process needs and what it gives back.
 - **Execute**: runs a process and gives you a link to a ZIP file with the result.
 
 Processes you can Execute:
-
 | Process | In simple words |
 |---|---|
-| `Subset` | Cuts out the part of the image inside your box. Gives the raw numbers (DN) and a quality mask. |
-| `Linear2dB` | Cuts your box and turns the raw numbers into real backscatter (Gamma0) in dB. |
-| `waterCandidateMask` | Marks the very dark pixels in your box as possible water (1 = maybe water, 0 = not water). Default limit is -20 dB, you can change it. |
-| `polarisationRatio` | Shows how strong HH is compared to HV (HH minus HV in dB) for your box. |
+| `Subset` | BBox subsetting of the dataset. Gives the raw numbers (DN) and a quality mask. |
+| `Linear2dB` | Converts the raw SAR values into real backscatter (Gamma0) in dB. |
+| `waterCandidateMask` | Binary Classification (1 = water, 0 = not water). Due to the time restriction a basic classifier (value limit) is implemented as water absorbs microwave a limit of -20 dB has been used. |
+| `polarisationRatio` | HV/HH for your box. |
 
-Every process needs `bbox` (lon lat box), `date` (like 2022-05-08) and optionally `scene_id`; the ones that need it also take `polarization` (HH, HV or DH for both). Ready-made request files are in `requests/`.
+Every process needs `bbox` (lon lat box), `date` (format 2022-05-08) and optionally `scene_id`; Some operations also require `polarization` (HH, HV or DH for both).
 
-## How to run
-
+## Instructions
 ```bash
 # 1. get data (needs a Bhoonidhi account; the password is only kept in memory)
 python -m venv .venv && .venv/bin/pip install -r requirements.txt requests
@@ -58,5 +56,3 @@ export BHOONIDHI_USER=your_id BHOONIDHI_PASSWORD=your_password
 # 2. start the service
 docker compose --env-file config/docker.env up -d --build   # http://localhost:5000
 ```
-/scenes contains a list of supported data
-The Execute answer contains a `Reference` link to `result.zip`.
