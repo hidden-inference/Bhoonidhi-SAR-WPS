@@ -1,5 +1,3 @@
-"""Run one process locally without the WPS server, e.g.
-  python run_local.py linear2db --bbox 76.70 21.20 76.80 21.30 --date 2022-05-08 --output outputs/my-run"""
 import argparse
 from processing.pipeline import run_pipeline, BASE, PRODUCTS
 

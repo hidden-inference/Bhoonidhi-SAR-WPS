@@ -1,4 +1,3 @@
-"""Portable WPS application: WPS_PUBLIC_URL controls advertised service/result URLs."""
 import configparser
 import json
 import os
@@ -16,7 +15,7 @@ from scripts.example_request import execute_xml
 
 BASE = Path(__file__).resolve().parent
 
-# Use our own capabilities template (no position/phone, only the contact fields we fill in).
+# our own GetCapabilities template (provider block)
 if not getattr(pywps_basic, '_custom_templates', False):
     _package_loader = pywps_basic.PackageLoader
     pywps_basic.PackageLoader = lambda *a, **k: ChoiceLoader([FileSystemLoader(str(BASE/'templates')), _package_loader(*a, **k)])
@@ -24,7 +23,6 @@ if not getattr(pywps_basic, '_custom_templates', False):
 
 
 class AllowBrowsers:
-    """Add CORS headers so web clients (e.g. hoppscotch.io) can call the service from a browser."""
     def __init__(self, app): self.app = app
 
     def __call__(self, environ, start_response):
@@ -95,8 +93,7 @@ def create_application(config=None):
 
     @downloads.route('/scenes')
     def available_scenes():
-        """Scenes stored on this server (these can be processed). Add ?all=1 to also list everything
-        Bhoonidhi has online for the region (from the saved search), marked offline true/false."""
+        # ?all=1 also lists everything online on Bhoonidhi for the region
         from flask import request
         local = {item['scene_id']: item for item in scenes()}
         rows = [dict(scene_id=k, offline=True, **{f: v.get(f) for f in ('datetime','collection','mode','channels','pixel_spacing_m','footprint')})

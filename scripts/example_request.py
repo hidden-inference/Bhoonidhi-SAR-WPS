@@ -1,4 +1,3 @@
-"""Generate an Execute request centered in a catalogued scene's footprint."""
 from xml.etree import ElementTree as ET
 
 WPS='http://www.opengis.net/wps/1.0.0'

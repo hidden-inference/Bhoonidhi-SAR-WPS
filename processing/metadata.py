@@ -1,4 +1,3 @@
-"""Strict reader for EOS-04 Level-2B ARD (terrain normalised Gamma0) products, MRS and CRS."""
 from dataclasses import dataclass
 from datetime import datetime, timezone
 from pathlib import Path
@@ -46,7 +45,7 @@ def read_scene(root):
     channels = {}
     for i in range(1, int(required('NoOfPolarizations')) + 1):
         ch = required(f'TxRxPol{i}').upper()
-        # Spec section 6.3: Kcal for Gamma0 is the Beta0 constant; noise bias as in section 3.
+        # the Gamma0 calibration constant is the Beta0 one (spec section 6.3)
         k = float(required(f'Calibration_Constant_Beta0_{ch}'))
         n = float(required(f'Image_Noise_Bias_{ch}'))
         if not np.isfinite([k, n]).all() or k == -9999 or n < 0:

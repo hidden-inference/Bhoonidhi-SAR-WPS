@@ -11,7 +11,7 @@ def build_catalog(raw, target):
     for p in sorted(Path(raw).rglob('BAND_META.txt')):
         try:
             scene = read_scene(p.parent)
-        except ValueError as exc:  # half-downloaded or unsupported product: skip, do not break the catalogue
+        except ValueError as exc:  # unfinished or unsupported product
             print(f'Skipping {p.parent.name}: {exc}')
             continue
         import os
@@ -63,7 +63,6 @@ def select_scene(catalog, bbox, date, polarization, scene_id=None):
 
 
 def footprint_overlaps(points, bbox):
-    """Clip footprint to rectangle (Sutherland-Hodgman), then test positive area."""
     polygon = [tuple(p) for p in points]
     for axis, bound, sign in [(0,bbox[0],1),(0,bbox[2],-1),(1,bbox[1],1),(1,bbox[3],-1)]:
         clipped = []

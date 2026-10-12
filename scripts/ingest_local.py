@@ -1,5 +1,4 @@
-"""Rebuild the scene catalogue from data/raw, optionally first adding a manually downloaded L2B ZIP
-(for example one ordered through Bhoonidhi Browse & Order). Only the files the WPS needs are extracted."""
+"""Rebuilds the scene catalogue, optionally after adding a manually downloaded L2B zip."""
 import argparse
 from pathlib import Path
 import sys

@@ -1,4 +1,3 @@
-"""Plain multiplicative Lee filter, valid-only population moments."""
 import numpy as np
 from scipy.ndimage import convolve
 

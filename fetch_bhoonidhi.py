@@ -1,12 +1,8 @@
-"""Download EOS-04 Level-2B (MRS + CRS) products from Bhoonidhi for the local WPS catalogue.
+"""Downloads EOS-04 L2B (MRS + CRS) scenes from Bhoonidhi.
 
-Defaults: lon 69..97, lat 8..37, 2021-01-01 .. 2026-01-01. Credentials stay in memory
-(BHOONIDHI_USER / BHOONIDHI_PASSWORD env vars, or you are asked).
-
-A full L2B zip is big (CRS ~170 MB, MRS ~440 MB) but most of it is the local-incidence-angle and
-area rasters, which the WPS does not need. So we read the zip's directory with HTTP Range requests and
-only download the imagery, mask and metadata members (CRS ~45 MB, MRS ~130 MB). Interrupted
-downloads resume. Run with --inventory-only first to see how many products exist.
+Reads each zip's directory with HTTP Range requests and fetches only the imagery, mask and
+metadata (the incidence-angle and area rasters are not needed), so downloads are much smaller and resumable.
+Login comes from BHOONIDHI_USER / BHOONIDHI_PASSWORD or a prompt and is never stored.
 """
 import argparse
 import datetime as dt
@@ -35,7 +31,7 @@ ROOT = Path(__file__).resolve().parent
 RAW = ROOT / 'data/raw'
 MANIFEST = ROOT / 'data/download_manifest.json'
 PROGRESS = ROOT / 'data/download_progress.json'
-CATALOGUE = ROOT / 'data/stac_items.json'  # inventory of everything online in the region
+CATALOGUE = ROOT / 'data/stac_items.json'
 
 
 def write_json(path, value):
@@ -126,7 +122,6 @@ SKIP_BIG = ('_lia.tif', '_area.tif', '.jpg', '.kmz', '_grid.txt', '.xsd', '.wld'
 
 
 def wanted(name):
-    """Members we keep: imagery, mask, metadata, small browse png."""
     low = name.lower()
     if low.endswith(SKIP_BIG) or low.endswith('.meta'):
         return False
@@ -134,7 +129,7 @@ def wanted(name):
 
 
 def monthly_windows(start, end):
-    """The API refuses ranges over 366 days; we use calendar months (small enough to avoid paging)."""
+    # the search API rejects date ranges over 366 days
     a, b = dt.date.fromisoformat(start), dt.date.fromisoformat(end)
     day = a
     while day <= b:
@@ -175,7 +170,7 @@ def search_all(client, a):
 
 
 def choose(items, count, dual_only=True, mrs_every=4):
-    """Pick `count` online products (offline ones need Browse & Order) spread evenly in time. Mostly CRS (small), every 4th MRS (bigger)."""
+    # online products only, spread over time; every 4th one is MRS (bigger files), the rest CRS
     def spread(collection, n):
         pool = [i for i in items if i['collection'] == collection and i['properties'].get('Online') == 'Y'
                 and (not dual_only or i['properties'].get('Polarization') == 'DH')]
@@ -195,7 +190,7 @@ def choose(items, count, dual_only=True, mrs_every=4):
 
 
 class RemoteZip(io.RawIOBase):
-    """File-like view of a Bhoonidhi download, read with HTTP Range requests (so zipfile can list it)."""
+    """Lets zipfile read the remote archive through Range requests."""
     def __init__(self, client, collection, item_id, size):
         self.client, self.params, self.size, self.pos = client, {'id': item_id, 'collection': collection}, size, 0
 
@@ -236,7 +231,6 @@ def archive_size(client, collection, item_id):
 
 
 def download_member(client, params, info, target, reserve):
-    """Fetch one zip member's compressed bytes (resumable), inflate, check CRC, move into place."""
     target = Path(target)
     if target.exists() and target.stat().st_size == info.file_size:
         return
@@ -310,7 +304,6 @@ def safe_id(item):
 
 
 def rebuild_catalog():
-    """Run in a fresh process so code edits are picked up while a long download is running."""
     import subprocess, sys
     result = subprocess.run([sys.executable, str(ROOT/'scripts/ingest_local.py')], capture_output=True, text=True, cwd=ROOT)
     if result.returncode:

@@ -1,4 +1,3 @@
-"""The WPS processes. All of them read scenes from the local catalogue (data/catalog/scenes.json)."""
 import json
 import logging
 from pathlib import Path
@@ -12,7 +11,6 @@ CRS84 = 'urn:ogc:def:crs:OGC:1.3:CRS84'
 
 
 def scene_summary(catalog):
-    """Short text for the abstracts. The full list is always at /scenes."""
     try:
         scenes = json.loads(Path(catalog).read_text())
     except (OSError, ValueError):
@@ -27,7 +25,6 @@ def scene_summary(catalog):
 
 
 class EOS04Process(Process):
-    """One class for all the processes. `product` decides what the pipeline computes."""
 
     def __init__(self, catalog, identifier, title, abstract, product, polarization=True, water=False):
         self.catalog = Path(catalog)
@@ -72,15 +69,15 @@ class EOS04Process(Process):
 def make_processes(catalog):
     return [
         EOS04Process(catalog, 'Subset', 'Subset',
-            'Cuts out the part of the scene inside your bounding box. You get the raw digital numbers (DN) and the quality mask, nothing else is changed.',
+            'BBox subsetting of the dataset. Gives the raw numbers (DN) and a quality mask.',
             'subset'),
         EOS04Process(catalog, 'Linear2dB', 'Linear to dB',
-            'Cuts your bounding box and converts the DN to Gamma0 backscatter in dB: (DN^2 - noise bias) / 10^(K/10) gives linear Gamma0, then 10*log10.',
+            'Converts the raw SAR values into real backscatter (Gamma0) in dB.',
             'linear2db'),
         EOS04Process(catalog, 'waterCandidateMask', 'Water candidate mask',
-            'Marks dark (low backscatter) pixels as possible water: 1 = candidate water, 0 = other, 255 = no data. This is a simple threshold, not a flood map.',
+            'Binary Classification (1 = water, 0 = not water). Due to the time restriction a basic classifier (value limit) is implemented as water absorbs microwave a limit of -20 dB has been used.',
             'water', water=True),
         EOS04Process(catalog, 'polarisationRatio', 'HV/HH polarisation ratio',
-            'Divides the HV backscatter by the HH backscatter (HV / HH) for your bounding box. You get the plain ratio and the same ratio in dB. Needs a scene that has both HH and HV.',
+            'HV/HH for your box.',
             'ratio', polarization=False),
     ]

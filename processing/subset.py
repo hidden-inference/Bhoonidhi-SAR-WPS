@@ -1,4 +1,3 @@
-"""CRS84 AOIs, native-grid windows, and one-pixel Lee halos."""
 import math
 import numpy as np
 from rasterio.windows import Window, from_bounds
@@ -23,7 +22,7 @@ def validate_bbox(bbox):
 
 def aoi_polygon(bbox):
     x0, y0, x1, y1 = validate_bbox(bbox)
-    # Densify edges before nonlinear map projection.
+    # densify the edges before projecting
     edges = [((x0, y0), (x1, y0)), ((x1, y0), (x1, y1)),
              ((x1, y1), (x0, y1)), ((x0, y1), (x0, y0))]
     coords = [list(np.asarray(a) * (1-t) + np.asarray(b) * t)

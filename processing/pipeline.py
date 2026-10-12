@@ -1,4 +1,3 @@
-"""Run one EOS-04 L2B product on a bounding box: subset, linear->dB, water candidate mask, HH/HV ratio."""
 from pathlib import Path
 import time
 import platform
@@ -19,7 +18,6 @@ DEFAULT_WATER_THRESHOLD_DB = -20.0
 
 
 def read_channel(scene, ch, bbox, max_pixels):
-    """Window of one channel plus the aligned quality mask (128 = valid) and AOI polygon mask."""
     band = scene.channels[ch]
     with rasterio.open(band['band']) as src, rasterio.open(scene.mask) as quality:
         requested, halo, trim, aoi = windows(src, bbox, max_pixels)
@@ -40,7 +38,7 @@ def run_pipeline(*, product, bbox, date, output_dir, polarization='DH', scene_id
         raise ValueError(f'product must be one of {PRODUCTS}')
     bbox = validate_bbox(bbox)
     if product == 'ratio':
-        polarization = 'DH'  # the ratio needs both channels
+        polarization = 'DH'
     if product == 'water':
         threshold_db = DEFAULT_WATER_THRESHOLD_DB if threshold_db is None else threshold_db
         if not np.isfinite(threshold_db):
