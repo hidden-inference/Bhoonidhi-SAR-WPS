@@ -57,48 +57,6 @@ export BHOONIDHI_USER=your_id BHOONIDHI_PASSWORD=your_password
 
 # 2. start the service
 docker compose --env-file config/docker.env up -d --build   # http://localhost:5000
-
-# 3. try the three operations
-curl 'http://localhost:5000/wps?service=WPS&request=GetCapabilities&acceptversions=1.0.0'
-curl 'http://localhost:5000/wps?service=WPS&version=1.0.0&request=DescribeProcess&identifier=Linear2dB'
-curl -H 'Content-Type: text/xml' --data-binary @requests/Linear2dB.xml http://localhost:5000/wps
 ```
-
-The Execute answer contains a `Reference` link to `result.zip`. Other useful pages: `/scenes`, `/example.xml?process=Subset&scene_id=<id>` (a ready request for any scene), `/simple/capabilities` (a flat, easy to read XML view) and `/health`. To share it online use `cloudflared tunnel --url http://localhost:5000` and put the link in `config/docker.env` as `WPS_PUBLIC_URL`.
-
-Note: `requests/` examples point to scene `E04_SAR_CRS_08MAY2022_...`; use `/example.xml` if you downloaded different scenes.
-
-## File structure
-
-```
-.
-├── app.py                   # Flask + PyWPS app (/wps, /scenes, /example.xml, /simple/...)
-├── pywps.cfg                # WPS settings and provider/contact details
-├── Dockerfile               # image: Python + GDAL + PyWPS + gunicorn
-├── compose.yaml             # runs the container, mounts data/outputs/work/logs
-├── config/docker.env        # WPS_PUBLIC_URL for docker compose
-├── requirements.txt         # numpy, scipy, rasterio
-├── requirements-wps.txt     # pywps, flask, gunicorn, requests
-├── fetch_bhoonidhi.py       # downloads L2B scenes from Bhoonidhi (resumable, only needed files)
-├── run_local.py             # run a process without the server
-├── processes/
-│   └── eos04_process.py     # the 4 WPS processes (inputs, outputs, descriptions)
-├── processing/              # the SAR code behind the processes
-│   ├── metadata.py          # reads BAND_META.txt of an L2B scene
-│   ├── catalog.py           # scene catalogue and scene selection
-│   ├── subset.py            # bounding box to raster window
-│   ├── calibration.py       # DN to Gamma0 (linear and dB)
-│   ├── speckle.py           # 3x3 Lee speckle filter
-│   ├── export.py            # GeoTIFF, metadata.json and ZIP writer
-│   └── pipeline.py          # ties it together for each process
-├── templates/               # our GetCapabilities template (provider block)
-├── requests/                # example Execute requests (XML)
-├── scripts/
-│   ├── example_request.py   # builds the /example.xml request
-│   └── ingest_local.py      # adds a manually downloaded ZIP / rebuilds the catalogue
-└── data/ outputs/ work/ logs/   # created at run time, not in git
-```
-
-## Limits
-
-The water mask is a plain threshold (default -20 dB is a demo value, not validated for any area), so it is not a flood map. Calibration follows the EOS-04 data product format document, section 6.3.
+/scenes contains a list of supported data
+The Execute answer contains a `Reference` link to `result.zip`.
